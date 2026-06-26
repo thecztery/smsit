@@ -1,0 +1,17 @@
+<app-header></app-header>
+
+<div class="page">
+
+    <div class="feed">
+
+        @for(post of posts; track post.id){
+
+            <app-post-card
+                [post]="post">
+            </app-post-card>
+
+        }
+
+    </div>
+
+</div>

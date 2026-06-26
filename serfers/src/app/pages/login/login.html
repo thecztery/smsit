@@ -1,0 +1,36 @@
+<app-header></app-header>
+
+<div class="page">
+
+    <div class="login-card">
+
+        <h2>Авторизация</h2>
+
+        <label>Почта</label>
+
+        <input
+            type="email"
+            [(ngModel)]="email"
+            placeholder="example@mail.com">
+
+        <label>Псевдоним</label>
+
+        <input
+            type="text"
+            [(ngModel)]="username"
+            placeholder="Ivan111">
+
+        <label>Пароль</label>
+
+        <input
+            type="password"
+            [(ngModel)]="password"
+            placeholder="********">
+
+        <button>
+            Войти
+        </button>
+
+    </div>
+
+</div>

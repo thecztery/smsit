@@ -1,0 +1,27 @@
+.comment{
+
+    background:#f7f7f7;
+
+    border:1px solid #d9d9d9;
+
+    border-radius:8px;
+
+    padding:10px 14px;
+
+    margin-top:10px;
+
+}
+
+.author{
+
+    font-weight:600;
+
+    margin-right:6px;
+
+}
+
+.text{
+
+    color:#555;
+
+}
