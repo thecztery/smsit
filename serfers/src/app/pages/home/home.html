@@ -1,17 +1,57 @@
-<app-header></app-header>
+<div class="new-post">
 
-<div class="page">
+    <div class="new-post-header">
+        Добавление новой записи
+    </div>
 
-    <div class="feed">
+    <label>Введите текст</label>
 
-        @for(post of posts; track post.id){
+    <textarea
+        rows="7"
+        [(ngModel)]="newPost">
+    </textarea>
 
-            <app-post-card
-                [post]="post">
-            </app-post-card>
+    <label>Прикрепить изображение</label>
 
-        }
+    <div class="file-row">
+
+        <input
+            type="text"
+            [value]="selectedImage"
+            readonly>
+
+        <input
+            type="file"
+            #fileInput
+            hidden
+            (change)="onFileSelected($event)">
+
+        <button
+            type="button"
+            class="browse-button"
+            (click)="fileInput.click()">
+
+            Обзор...
+
+        </button>
+
+        <button
+    type="button"
+    class="publish-button"
+    (click)="addPost()">
+
+    Добавить
+
+</button>
 
     </div>
 
 </div>
+
+@for (post of posts; track post.id) {
+
+    <app-post-card
+        [post]="post">
+    </app-post-card>
+
+}

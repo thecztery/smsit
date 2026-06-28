@@ -1,40 +1,295 @@
-<app-header></app-header>
+
 
 <div class="page">
 
     <div class="register-card">
 
-        <h2>Регистрация</h2>
+        <div class="register-header">
+            Регистрация нового пользователя
+        </div>
 
-        <label>Почта</label>
+        <div class="top-section">
 
-        <input
-            type="email"
-            [(ngModel)]="email"
-            placeholder="example@mail.com">
+            <div class="left-column">
 
-        <label>Псевдоним</label>
+                <label>Псевдоним *</label>
 
-        <input
-            type="text"
-            [(ngModel)]="username"
-            placeholder="Ivan111">
+                <input
+    type="text"
+    [(ngModel)]="nickname"
+    title="От 3 до 20 символов. Латиница, кириллица, цифры и подчёркивания."
+    [class.error-input]="nickname.length > 20 || (nickname.length > 0 && nickname.length < 3)">
 
-        <label>Пароль</label>
+                <div class="hint">
+                    От 3 до 20 символов. Латиница, кириллица, цифры и подчёркивания.
+                </div>
 
-        <input
-            type="password"
-            [(ngModel)]="password">
+                @if ((nickname.length > 0) && (nickname.length < 3)){
 
-        <label>Повторите пароль</label>
+                    <div class="error">
+                        Псевдоним должен содержать минимум 3 символа.
+                    </div>
 
-        <input
-            type="password"
-            [(ngModel)]="repeatPassword">
+                }
+
+                @if(nickname.length > 20){
+
+                    <div class="error">
+                        Псевдоним должен содержать не более 20 символов.
+                    </div>
+
+                }
+
+                @if(nickname.length > 0 && !nickname.match('^[A-Za-zА-Яа-яЁё0-9_]+$')){
+
+                    <div class="error">
+                        Допустимы только латиница, кириллица, цифры и подчёркивания.
+                    </div>
+
+                }
+
+
+                <label>Почта *</label>
+
+                <input
+    type="email"
+    [(ngModel)]="email"
+    placeholder="example@ex.ru"
+    title="Максимальная длина — 31 символ."
+    [class.error-input]="email.length > 31">
+
+                @if(email.length > 31){
+
+                    <div class="error">
+                        Почта должна быть не длиннее 31 символа.
+                    </div>
+
+                }
+
+
+                <label>Пароль *</label>
+
+                <input
+    type="password"
+    [(ngModel)]="password"
+    title="От 6 до 20 символов. Латиница, цифры и подчёркивания."
+    [class.error-input]="password.length > 20 || (password.length > 0 && password.length < 6)">
+
+                <div class="hint">
+                    От 6 до 20 символов. Латиница, цифры и подчёркивания.
+                </div>
+
+                @if(password.length > 0 && password.length < 6){
+
+                    <div class="error">
+                        Пароль должен содержать минимум 6 символов.
+                    </div>
+
+                }
+
+                @if(password.length > 20){
+
+                    <div class="error">
+                        Пароль должен содержать не более 20 символов.
+                    </div>
+
+                }
+
+                @if(password.length > 0 && !password.match('^[A-Za-z0-9_]+$')){
+
+                    <div class="error">
+                        Допустимы только латиница, цифры и подчёркивания.
+                    </div>
+
+                }
+
+
+                <label>Подтвердите пароль *</label>
+
+                <input
+    type="password"
+    [(ngModel)]="repeatPassword"
+    title="Повторно введите пароль."
+    [class.error-input]="repeatPassword.length > 0 && password !== repeatPassword">
+
+                @if(repeatPassword.length > 0 && password !== repeatPassword){
+
+                    <div class="error">
+                        Пароли не совпадают.
+                    </div>
+
+                }
+
+
+                <label>Фамилия</label>
+
+                <input
+    type="text"
+    [(ngModel)]="lastName"
+    title="Максимальная длина — 31 символ."
+    [class.error-input]="lastName.length > 31">
+
+                @if(lastName.length > 31){
+
+                    <div class="error">
+                        Максимальная длина — 31 символ.
+                    </div>
+
+                }
+
+
+                <label>Имя</label>
+
+                <input
+    type="text"
+    [(ngModel)]="firstName"
+    title="Максимальная длина — 31 символ."
+    [class.error-input]="firstName.length > 31">
+
+                @if(firstName.length > 31){
+
+                    <div class="error">
+                        Максимальная длина — 31 символ.
+                    </div>
+
+                }
+
+            </div>
+
+            <div class="right-column">
+
+                <div class="photo-placeholder">
+                    Фото профиля
+                </div>
+
+            </div>
+
+        </div>
+
+                    
+
+        <label>Выберите фото</label>
+
+<div class="file-row">
+
+    <input
+        type="text"
+        [value]="selectedPhoto"
+        readonly>
+
+    <input
+        type="file"
+        #fileInput
+        hidden
+        (change)="onPhotoSelected($event)">
+
+    <button
+        type="button"
+        class="browse-button"
+        (click)="fileInput.click()">
+
+        Обзор...
+
+    </button>
+
+</div>
+
+        <label>Контактная информация</label>
+
+        <textarea
+    rows="4"
+    [(ngModel)]="contacts"
+    title="Максимальная длина — 255 символов."
+    [class.error-input]="contacts.length > 255"></textarea>
+
+        @if(contacts.length > 255){
+
+            <div class="error">
+                Максимальная длина — 255 символов.
+            </div>
+
+        }
+
+
+        <label>О себе</label>
+
+        <textarea
+    rows="4"
+    [(ngModel)]="about"
+    title="Максимальная длина — 255 символов."
+    [class.error-input]="about.length > 255"></textarea>
+
+        @if(about.length > 255){
+
+            <div class="error">
+                Максимальная длина — 255 символов.
+            </div>
+
+        }
+
+
+        <label>Достижения</label>
+
+        <textarea
+    rows="4"
+    [(ngModel)]="achievements"
+    title="Максимальная длина — 255 символов."
+    [class.error-input]="achievements.length > 255"></textarea>
+
+        @if(achievements.length > 255){
+
+            <div class="error">
+                Максимальная длина — 255 символов.
+            </div>
+
+        }
+
+
+        <div class="required-note">
+
+            * — поля обязательные для заполнения
+
+        </div>
+
 
         <button>
+
             Зарегистрироваться
+
         </button>
+
+
+        @if(
+            nickname.length === 0 ||
+            email.length === 0 ||
+            password.length === 0 ||
+            repeatPassword.length === 0
+        ){
+
+            <div class="form-error">
+
+                Заполнены не все обязательные поля!
+
+            </div>
+
+        }
+
+
+        <div class="bottom">
+
+            <span class="login-text">
+                Уже есть аккаунт?
+            </span>
+
+            <button
+                class="secondary-button"
+                routerLink="/login">
+
+                Войти
+
+            </button>
+  
+        </div>
 
     </div>
 

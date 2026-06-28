@@ -40,14 +40,11 @@
 }
 
 .login-card label{
-
     display:block;
+    margin-bottom:6px;
 
-    margin-bottom:8px;
-    margin-top:18px;
-
-    color:#666;
-
+    color:#7b7b7b;
+    font-size:14px;
 }
 
 .login-card input{
@@ -100,4 +97,25 @@
 
     background:#d3dce3;
 
+} 
+
+.or{
+    width: 100%;
+
+    text-align: center;
+
+    color: #7b7b7b;
+
+    font-size: 14px;
+
+    margin: 8px 0 2px;
 }
+
+.nickname-label{
+    margin-top:0;
+}
+
+.password-label{
+    margin-top:12px;
+}
+
