@@ -25,11 +25,14 @@ public class ImageController : ControllerBase
         if (folder != "avatars" && folder != "posts")
             return BadRequest("Неверная папка.");
 
-        var path = await _imageService.SaveImage(file, folder);
+        Console.WriteLine(file.FileName);
+Console.WriteLine(file.Length);
+
+var path = await _imageService.SaveImage(file, folder);
 
         return Ok(new
         {
-            Path = path
+            path = path
         });
     }
 }

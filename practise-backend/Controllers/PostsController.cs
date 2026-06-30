@@ -14,30 +14,33 @@ public class PostsController : ControllerBase
     private readonly CommentService _commentService;
 
     public PostsController(
-    PostService postService,
-    CommentService commentService)
-{
-    _postService = postService;
-    _commentService = commentService;
-}
+        PostService postService,
+        CommentService commentService)
+    {
+        _postService = postService;
+        _commentService = commentService;
+    }
 
+    // Просмотр всех постов (доступен всем)
     [HttpGet]
     public async Task<IActionResult> GetPosts()
     {
         return Ok(await _postService.GetPosts());
     }
 
+    // Просмотр одного поста (доступен всем)
     [HttpGet("{id}")]
-public async Task<IActionResult> GetPost(int id)
-{
-    var post = await _postService.GetPost(id);
+    public async Task<IActionResult> GetPost(int id)
+    {
+        var post = await _postService.GetPost(id);
 
-    if (post == null)
-        return NotFound();
+        if (post == null)
+            return NotFound();
 
-    return Ok(post);
-}
+        return Ok(post);
+    }
 
+    // Создание поста (только авторизованным)
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create(CreatePostDto dto)
@@ -52,69 +55,70 @@ public async Task<IActionResult> GetPost(int id)
         return Ok(post);
     }
 
+    // Удаление своего поста
     [Authorize]
-[HttpDelete("{id}")]
-public async Task<IActionResult> Delete(int id)
-{
-    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    if (userId == null)
-        return Unauthorized();
+        if (userId == null)
+            return Unauthorized();
 
-    var result =
-        await _postService.DeletePost(id, int.Parse(userId));
+        var result = await _postService.DeletePost(id, int.Parse(userId));
 
-    if (!result)
-        return NotFound();
+        if (!result)
+            return NotFound();
 
-    return Ok();
-}
+        return Ok();
+    }
 
-[HttpGet("{postId}/comments")]
-public async Task<IActionResult> GetComments(int postId)
-{
-    var comments = await _commentService.GetComments(postId);
+    // Просмотр комментариев (доступен всем)
+    [HttpGet("{postId}/comments")]
+    public async Task<IActionResult> GetComments(int postId)
+    {
+        return Ok(await _commentService.GetComments(postId));
+    }
 
-    return Ok(comments);
-}
+    // Добавление комментария (только авторизованным)
+    [Authorize]
+    [HttpPost("{postId}/comments")]
+    public async Task<IActionResult> CreateComment(
+        int postId,
+        CreateCommentDto dto)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-[Authorize]
-[HttpPost("{postId}/comments")]
-public async Task<IActionResult> CreateComment(
-    int postId,
-    CreateCommentDto dto)
-{
-    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+            return Unauthorized();
 
-    if (userId == null)
-        return Unauthorized();
+        var comment = await _commentService.CreateComment(
+            postId,
+            int.Parse(userId),
+            dto);
 
-    var comment = await _commentService.CreateComment(
-        postId,
-        int.Parse(userId),
-        dto);
+        return Ok(comment);
+    }
 
-    return Ok(comment);
-}
+    // Удаление своего комментария
+    [Authorize]
+    [HttpDelete("{postId}/comments/{commentId}")]
+    public async Task<IActionResult> DeleteComment(
+        int postId,
+        int commentId)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-[Authorize]
-[HttpDelete("{postId}/comments/{commentId}")]
-public async Task<IActionResult> DeleteComment(
-    int postId,
-    int commentId)
-{
-    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+            return Unauthorized();
 
-    if (userId == null)
-        return Unauthorized();
+        var result = await _commentService.DeleteComment(
+            commentId,
+            int.Parse(userId));
 
-    var result = await _commentService.DeleteComment(
-        commentId,
-        int.Parse(userId));
+        if (!result)
+            return NotFound();
 
-    if (!result)
-        return NotFound();
-
-    return Ok();
-}
+        return Ok();
+    }
 }

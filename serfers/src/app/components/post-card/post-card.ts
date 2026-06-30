@@ -1,75 +1,56 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Post } from '../../models/post';
 
 @Component({
   selector: 'app-post-card',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+  FormsModule,
+  DatePipe
+],
   templateUrl: './post-card.html',
   styleUrl: './post-card.css'
-  
 })
-export class PostCard implements OnInit {
-
-  ngOnInit(): void {
-
-    this.likes = this.post.likes;
-
-}
+export class PostCard {
 
   @Input({ required: true })
-  post: any;
+  post!: Post;
 
   showComments = false;
 
-  visibleComments = 2;
-
   liked = false;
-likes = 0;
 
-toggleComments(): void {
+  likes = 0;
 
-  this.showComments = !this.showComments;
+  ngOnInit(): void {
 
-}
-
-toggleLike(): void {
-
-  if (this.liked) {
-
-    this.likes--;
-
-  } else {
-
-    this.likes++;
+    this.likes = this.post.likesCount;
 
   }
 
-  this.liked = !this.liked;
-}
+  toggleComments(): void {
 
-newComment = '';
+    this.showComments = !this.showComments;
 
-addComment(): void {
-
-  const text = this.newComment.trim();
-
-  if (!text) {
-    return;
   }
 
-  this.post.comments.unshift({
+  toggleLike(): void {
 
-    author: 'Вы',
+    if (this.liked) {
 
-    avatar: 'assets/images/avatar1.png',
+      this.likes--;
 
-    text: text
+    }
+    else {
 
-  });
+      this.likes++;
 
-  this.newComment = '';
+    }
 
-}
+    this.liked = !this.liked;
+
+  }
+
 }

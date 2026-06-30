@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Header } from '../../components/header/header';
 import { PostCard } from '../../components/post-card/post-card';
+
+import { PostService } from '../../services/post.service';
+import { Post } from '../../models/post';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +18,44 @@ import { PostCard } from '../../components/post-card/post-card';
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
+export class Home implements OnInit {
 
   newPost = '';
 
   selectedImage = '';
+
+  selectedFile: File | null = null;
+
+  posts: Post[] = [];
+
+  constructor(
+    private postService: PostService,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  ngOnInit(): void {
+
+    this.loadPosts();
+
+  }
+
+  loadPosts(): void {
+
+    this.postService.getPosts().subscribe({
+
+      next: (posts) => {
+
+        this.posts = posts;
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (err) => console.log(err)
+
+    });
+
+  }
 
   onFileSelected(event: Event): void {
 
@@ -27,120 +63,69 @@ export class Home {
 
     if (input.files && input.files.length > 0) {
 
-      this.selectedImage = input.files[0].name;
+      this.selectedFile = input.files[0];
+
+      this.selectedImage = this.selectedFile.name;
 
     }
 
   }
 
-  posts = [
+  addPost(): void {
 
-  {
-    id: 1,
+    if (!this.newPost.trim()) {
+      return;
+    }
 
-    author: 'Enotovod',
+    if (this.selectedFile) {
 
-    avatar: 'images/avatar1.png',
+      this.postService.uploadImage(this.selectedFile).subscribe({
 
-    date: '13.06.2019 в 20:15',
+        next: (response: any) => {
 
-    text: 'Sample text Sample text Sample text Sample text Sample text Sample text Sample text Sample text Sample text Sample text Sample text Sample text.',
+          this.createPost(response.path);
 
-    image: 'images/post1.jpg',
+        },
 
-    likes: 18655,
+        error: (err) => console.log(err)
 
-    comments: [
+      });
 
-  {
-    author: 'Surfer2010',
-    avatar: 'images/avatar1.png',
-    text: 'Прикольные фотки!'
-  },
+    }
+    else {
 
-  {
-    author: 'Nikolpix',
-    avatar: 'images/avatar2.png',
-    text: 'Очень красиво!'
-  },
+      this.createPost('');
 
-  {
-    author: 'Enotovod',
-    avatar: 'images/avatar1.png',
-    text: 'Спасибо!'
-  }
-
-]
-  },
-
-  {
-    id: 2,
-
-    author: 'SimonsCat',
-
-    avatar: 'images/avatar2.png',
-
-    date: '13.06.2019 в 19:57',
-
-    text: 'Sample text Sample text Sample text Sample text Sample text Sample text Sample text.',
-
-    image: 'images/post2.jpg',
-
-    likes: 18655,
-
-    comments: []
+    }
 
   }
 
-];
-addPost(): void {
+  createPost(imagePath: string): void {
 
-  const text = this.newPost.trim();
+    this.postService.createPost({
 
-  if (!text) {
-    return;
+      text: this.newPost,
+
+      image: imagePath
+
+    }).subscribe({
+
+      next: () => {
+
+        this.newPost = '';
+
+        this.selectedImage = '';
+
+        this.selectedFile = null;
+
+        this.loadPosts();
+
+      },
+
+      error: (err) => console.log(err)
+
+    });
+
   }
-
-  this.posts.unshift({
-
-    id: this.posts.length + 1,
-
-    author: 'Вы',
-
-    avatar: 'assets/images/avatar1.png',
-
-    date: this.getCurrentDate(),
-
-    text: text,
-
-    image: this.selectedImage || 'assets/images/post1.jpg',
-
-    likes: 0,
-
-    comments: []
-
-  });
-
-  this.newPost = '';
-  this.selectedImage = '';
-
-}
-
-getCurrentDate(): string {
-
-  const now = new Date();
-
-  const date = now.toLocaleDateString('ru-RU');
-
-  const time = now.toLocaleTimeString('ru-RU', {
-
-    hour: '2-digit',
-    minute: '2-digit'
-
-  });
-
-  return `${date} в ${time}`;
-
-}
 
 }

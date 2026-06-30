@@ -134,4 +134,3 @@
 /Users/vladislavdikalov/smsit/practise-backend/bin/Debug/net10.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/vladislavdikalov/smsit/practise-backend/bin/Debug/net10.0/Microsoft.Bcl.Cryptography.dll
 /Users/vladislavdikalov/smsit/practise-backend/bin/Debug/net10.0/practise-backend.staticwebassets.runtime.json
-/Users/vladislavdikalov/smsit/practise-backend/obj/Debug/net10.0/compressed/wkjeffes0x-{0}-0byauys3vb-0byauys3vb.gz
