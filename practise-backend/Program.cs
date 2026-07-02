@@ -16,6 +16,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<CommentService>();
 builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<LikeService>();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -42,6 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddCors(options =>
 {

@@ -39,7 +39,7 @@ export class Login {
 
         localStorage.setItem('token', response.token);
 
-        localStorage.setItem('user', JSON.stringify(response.user));
+        this.authService.setUser(response.user);
 
         alert('Авторизация успешна!');
 

@@ -112,21 +112,21 @@
 
     position:absolute;
 
-    left:40px;
+    left:5px;
 
-    bottom:48px;
+    bottom:35px;
 
-    width:220px;
+    width:320px;
 
-    background:#ffffff;
+    background:#fff;
 
     border:4px solid #d7dbe3;
 
     border-radius:10px;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
-
     overflow:hidden;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
 
     z-index:100;
 
@@ -136,17 +136,21 @@
 
     width:100%;
 
-    height:38px;
+    height:40px;
 
     border:none;
 
     border-bottom:1px solid #e3e3e3;
 
-    padding:0 12px;
+    text-align:center;
+
+    font-size:13px;
+
+    color:#666;
+
+    outline:none;
 
     box-sizing:border-box;
-
-    text-align:center;
 
 }
 
@@ -162,13 +166,13 @@
 
     display:flex;
 
-    align-items:flex-start;
-
     gap:10px;
 
-    padding:10px 12px;
+    padding:12px;
 
     border-bottom:1px solid #eeeeee;
+
+    align-items:flex-start;
 
 }
 
@@ -192,8 +196,6 @@
 
     flex-direction:column;
 
-    justify-content:center;
-
     flex:1;
 
 }
@@ -212,27 +214,15 @@
 
 .comment-text{
 
-    color:#8b8b8b;
-
     font-size:12px;
 
-    line-height:1.4;
+    color:#8b8b8b;
+
+    line-height:1.3;
 
 }
 
-.comments-popup button{
 
-    width:100%;
-
-    height:36px;
-
-    border:none;
-
-    background:#f3f3f3;
-
-    cursor:pointer;
-
-}
 
 .image-wrapper{
 
@@ -316,5 +306,21 @@
 .liked .icon{
 
     color:#d84b4b;
+
+}
+
+.avatar{
+
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#dfe6ec;
+    object-fit:cover;
+
+}
+
+.comments-popup input::placeholder{
+
+    color:#b7b7b7;
 
 }

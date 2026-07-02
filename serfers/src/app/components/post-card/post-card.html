@@ -2,10 +2,19 @@
 
     <div class="post-top">
 
-        <img
-            class="avatar"
-            src="https://placehold.co/42x42"
-            alt="avatar">
+        @if(post.userPhoto){
+
+            <img
+                class="avatar"
+                [src]="'http://localhost:5001/' + post.userPhoto"
+                alt="avatar">
+
+        }
+        @else{
+
+            <div class="avatar"></div>
+
+        }
 
         <div class="user-info">
 
@@ -34,6 +43,61 @@
                 [src]="'http://localhost:5001/' + post.image"
                 alt="post">
 
+            @if(showComments){
+
+                <div class="comments-popup">
+
+                    <input
+                        type="text"
+                        placeholder="Напишите комментарий..."
+                        [(ngModel)]="newComment"
+                        (keyup.enter)="addComment()">
+
+                    <div class="comments-list">
+
+                        @for(comment of comments; track comment.id){
+
+                            <div class="comment-item">
+
+                                @if(comment.userPhoto){
+
+                                    <img
+                                        class="comment-avatar"
+                                        [src]="'http://localhost:5001/' + comment.userPhoto">
+
+                                }
+                                @else{
+
+                                    <div class="comment-avatar"></div>
+
+                                }
+
+                                <div class="comment-content">
+
+                                    <div class="comment-author">
+
+                                        {{ comment.nickname }}
+
+                                    </div>
+
+                                    <div class="comment-text">
+
+                                        {{ comment.text }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        }
+
+                    </div>
+
+                </div>
+
+            }
+
         </div>
 
     }
@@ -53,7 +117,7 @@
 
             <span>
 
-                {{ likes }}
+                {{ post.likesCount }}
 
             </span>
 

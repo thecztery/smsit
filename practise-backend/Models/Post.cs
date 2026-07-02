@@ -17,4 +17,6 @@ public class Post
     public List<Comment> Comments { get; set; } = new();
 
     public int LikesCount { get; set; } = 0;
+
+    public ICollection<Like> Likes { get; set; } = new List<Like>();
 }

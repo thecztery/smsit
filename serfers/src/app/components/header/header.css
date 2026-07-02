@@ -47,3 +47,83 @@ nav a:hover{
     background:#d2dae1;
 
 }
+
+.user-panel{
+
+    display:flex;
+
+    height:70px;
+
+}
+
+.user-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:0 18px;
+
+    border-left:1px solid #c9d1d8;
+
+}
+
+.avatar{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.nickname{
+
+    color:#444;
+
+    font-size:15px;
+
+}
+
+.logout-button{
+
+    width:70px;
+
+    height:70px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border:none;
+
+    border-left:1px solid #c9d1d8;
+
+    background:#dfe6ec;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.logout-button:hover{
+
+    background:#d2dae1;
+
+}
+
+.logout-icon{
+
+    width:22px;
+
+    height:22px;
+
+}

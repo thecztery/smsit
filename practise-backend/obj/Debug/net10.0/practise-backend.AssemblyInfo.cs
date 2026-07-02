@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("practise-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec358f828ab3ffc6fb6634b741bfedd3af0bacf4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a99dc00e726af8d89d9bfe4ce975dca9409c2f0e")]
 [assembly: System.Reflection.AssemblyProductAttribute("practise-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("practise-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -37,14 +37,18 @@ public class PostService
         .Include(p => p.User)
         .OrderByDescending(p => p.CreatedAt)
         .Select(p => new PostDto
-        {
-            Id = p.Id,
-            Text = p.Text,
-            Image = p.Image,
-            CreatedAt = p.CreatedAt,
-            Nickname = p.User.Nickname,
-            UserPhoto = p.User.Photo
-        })
+{
+    Id = p.Id,
+    Text = p.Text,
+    Image = p.Image,
+    CreatedAt = p.CreatedAt,
+
+    Nickname = p.User.Nickname,
+    UserPhoto = p.User.Photo,
+
+    LikesCount = p.LikesCount,
+    CommentsCount = p.Comments.Count
+})
         .ToListAsync();
 }
 
@@ -54,16 +58,18 @@ public async Task<PostDto?> GetPost(int id)
         .Include(p => p.User)
         .Where(p => p.Id == id)
         .Select(p => new PostDto
-        {
-            Id = p.Id,
-            Text = p.Text,
-            Image = p.Image,
-            CreatedAt = p.CreatedAt,
-            Nickname = p.User.Nickname,
-            UserPhoto = p.User.Photo,
-            LikesCount = p.LikesCount,
-            CommentsCount = p.Comments.Count,
-        })
+{
+    Id = p.Id,
+    Text = p.Text,
+    Image = p.Image,
+    CreatedAt = p.CreatedAt,
+
+    Nickname = p.User.Nickname,
+    UserPhoto = p.User.Photo,
+
+    LikesCount = p.LikesCount,
+    CommentsCount = p.Comments.Count
+})
         .FirstOrDefaultAsync();
 }
 

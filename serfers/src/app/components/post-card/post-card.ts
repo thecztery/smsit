@@ -1,15 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+
 import { Post } from '../../models/post';
+import { PostService } from '../../services/post.service';
+import { Comment } from '../../models/comment';
 
 @Component({
   selector: 'app-post-card',
   standalone: true,
   imports: [
-  FormsModule,
-  DatePipe
-],
+    FormsModule,
+    DatePipe
+  ],
   templateUrl: './post-card.html',
   styleUrl: './post-card.css'
 })
@@ -22,35 +25,93 @@ export class PostCard {
 
   liked = false;
 
-  likes = 0;
+  comments: Comment[] = [];
 
-  ngOnInit(): void {
+newComment = '';
 
-    this.likes = this.post.likesCount;
-
-  }
+  constructor(private postService: PostService) { }
 
   toggleComments(): void {
 
-    this.showComments = !this.showComments;
+  this.showComments = !this.showComments;
+
+  if (this.showComments) {
+
+    this.postService.getComments(this.post.id).subscribe({
+
+      next: (comments) => {
+
+        this.comments = comments;
+
+      },
+
+      error: (err) => {
+
+        console.log(err);
+
+      }
+
+    });
 
   }
+
+}
 
   toggleLike(): void {
 
-    if (this.liked) {
+    this.postService.toggleLike(this.post.id).subscribe({
 
-      this.likes--;
+      next: (response: any) => {
 
-    }
-    else {
+        this.liked = response.liked;
 
-      this.likes++;
+        this.post.likesCount = response.likesCount;
 
-    }
+      },
 
-    this.liked = !this.liked;
+      error: (err) => {
+
+        console.log(err);
+
+      }
+
+    });
 
   }
+
+  addComment(): void {
+
+  if (!this.newComment.trim()) {
+
+    return;
+
+  }
+
+  this.postService.createComment(
+    this.post.id,
+    this.newComment
+  ).subscribe({
+
+    next: () => {
+
+      this.newComment = '';
+
+      this.post.commentsCount++;
+
+      this.toggleComments();
+
+      this.toggleComments();
+
+    },
+
+    error: (err) => {
+
+      console.log(err);
+
+    }
+
+  });
+
+}
 
 }

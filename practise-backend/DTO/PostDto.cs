@@ -17,4 +17,6 @@ public class PostDto
     public string Nickname { get; set; } = string.Empty;
 
     public string? UserPhoto { get; set; }
+
+    public bool IsLiked { get; set; }
 }

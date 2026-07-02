@@ -45,11 +45,13 @@ export class Home implements OnInit {
 
       next: (posts) => {
 
-        this.posts = posts;
+    console.log(posts);
 
-        this.cdr.detectChanges();
+    this.posts = posts;
 
-      },
+    this.cdr.detectChanges();
+
+},
 
       error: (err) => console.log(err)
 
@@ -73,52 +75,21 @@ export class Home implements OnInit {
 
   addPost(): void {
 
-    if (!this.newPost.trim()) {
-      return;
-    }
+  const text = this.newPost.trim();
 
-    if (this.selectedFile) {
+  if (!text && !this.selectedFile) {
 
-      this.postService.uploadImage(this.selectedFile).subscribe({
-
-        next: (response: any) => {
-
-          this.createPost(response.path);
-
-        },
-
-        error: (err) => console.log(err)
-
-      });
-
-    }
-    else {
-
-      this.createPost('');
-
-    }
+    return;
 
   }
 
-  createPost(imagePath: string): void {
+  if (this.selectedFile) {
 
-    this.postService.createPost({
+    this.postService.uploadImage(this.selectedFile).subscribe({
 
-      text: this.newPost,
+      next: (response: any) => {
 
-      image: imagePath
-
-    }).subscribe({
-
-      next: () => {
-
-        this.newPost = '';
-
-        this.selectedImage = '';
-
-        this.selectedFile = null;
-
-        this.loadPosts();
+        this.createPost(response.path);
 
       },
 
@@ -127,5 +98,40 @@ export class Home implements OnInit {
     });
 
   }
+  else {
+
+    this.createPost('');
+
+  }
+
+}
+
+  createPost(imagePath: string): void {
+
+  this.postService.createPost({
+
+    text: this.newPost.trim(),
+
+    image: imagePath
+
+  }).subscribe({
+
+    next: () => {
+
+      this.newPost = '';
+
+      this.selectedImage = '';
+
+      this.selectedFile = null;
+
+      this.loadPosts();
+
+    },
+
+    error: (err) => console.log(err)
+
+  });
+
+}
 
 }

@@ -25,4 +25,6 @@ public class User
     public List<Post> Posts { get; set; } = new();
 
     public List<Comment> Comments { get; set; } = new();
+
+    public ICollection<Like> Likes { get; set; } = new List<Like>();
 }

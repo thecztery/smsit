@@ -136,29 +136,35 @@
 
 .register-card > button{
 
-    width: 220px;
+    width:220px;
 
-    height: 46px;
+    height:46px;
 
-    display: block;
+    display:block;
 
-    margin: 35px auto 20px;
+    margin:35px auto 20px;
 
-    border: 1px solid #c7d0d7;
+    border:1px solid #c7d0d7;
 
-    border-radius: 8px;
+    border-radius:8px;
 
-    background: #dfe6ec;
+    background:#dfe6ec;
 
-    cursor: pointer;
+    color:#666;
 
-    font-size: 16px;
+    font-size:16px;
+
+    font-family:inherit;
+
+    font-weight:400;
+
+    cursor:pointer;
 
 }
 
-.register-card button:hover{
+.register-card > button:hover{
 
-    background: #d2dae1;
+    background:#d2dae1;
 
 }
 
@@ -389,6 +395,34 @@
     font-weight:400;
 
     cursor:pointer;
+
+}
+
+.secondary-button{
+
+    width:120px;
+
+    height:46px;
+
+    border:1px solid #c7d0d7;
+
+    border-radius:8px;
+
+    background:#dfe6ec;
+
+    color:#666;
+
+    font-size:16px;
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+}
+
+.secondary-button:hover{
+
+    background:#d2dae1;
 
 }
 

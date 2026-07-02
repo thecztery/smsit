@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { Header } from '../../components/header/header';
 import { AuthService } from '../../services/auth.service';
-import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +31,7 @@ export class Register {
 
   constructor(
     private authService: AuthService,
-    private postService: PostService
+    private router: Router
   ) { }
 
   onPhotoSelected(event: Event): void {
@@ -45,11 +44,12 @@ export class Register {
       this.selectedPhoto = this.selectedFile.name;
 
     }
+
   }
 
   register(): void {
 
-    const sendRegister = (photoPath: string) => {
+    const registerUser = (photoPath: string) => {
 
       const dto = {
 
@@ -72,9 +72,34 @@ export class Register {
 
         next: () => {
 
-          alert('Регистрация успешна!');
+          this.authService.login({
+
+            login: this.nickname,
+
+            password: this.password
+
+          }).subscribe({
+
+            next: (response: any) => {
+
+              localStorage.setItem('token', response.token);
+
+              this.authService.setUser(response.user);
+
+              this.router.navigate(['/']);
+
+            },
+
+            error: (err) => {
+
+              console.log(err);
+
+            }
+
+          });
 
         },
+
         error: (err) => {
 
           console.log(err);
@@ -86,20 +111,19 @@ export class Register {
 
     };
 
-    // если фото есть — сначала грузим
     if (this.selectedFile) {
 
       this.authService.uploadAvatar(this.selectedFile).subscribe({
 
-        next: (res: any) => {
+        next: (response: any) => {
 
-          sendRegister(res.path);
+          registerUser(response.path);
 
         },
+
         error: (err) => {
 
           console.log(err);
-          alert('Ошибка загрузки фото');
 
         }
 
@@ -108,8 +132,10 @@ export class Register {
     }
     else {
 
-      sendRegister('');
+      registerUser('');
 
     }
+
   }
+
 }
